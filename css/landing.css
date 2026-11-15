@@ -1,0 +1,92 @@
+/* Landing page template: "Ledger". Editorial serif display, cool paper, ink and a single blue signal.
+   Scoped to the landing page only (body.landing). */
+body.landing {
+  --l-ink: #0b1220;
+  --l-ink-2: #3a4658;
+  --l-paper: #f1f3f6;
+  --l-white: #ffffff;
+  --l-rule: #cfd6e0;
+  --l-blue: #2a5bd7;
+  --l-blue-ink: #1b3f9e;
+  --l-gold: #b7791f;
+  --l-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  background: var(--l-paper);
+  color: var(--l-ink);
+  font-family: var(--font);
+}
+body.landing a { color: inherit; }
+body.landing a:focus-visible { outline: 3px solid var(--l-blue); outline-offset: 3px; }
+
+.l-top { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; gap: 16px; flex-wrap: wrap; }
+.l-brand { font-family: var(--l-display); font-size: 1.6rem; text-decoration: none; letter-spacing: -0.01em; }
+.l-brand i { font-style: italic; color: var(--l-blue); }
+.l-top nav { display: flex; gap: 22px; font-size: 0.95rem; }
+.l-top nav a { text-decoration: none; color: var(--l-ink-2); }
+.l-top nav a:hover { color: var(--l-ink); text-decoration: underline; text-underline-offset: 4px; }
+
+/* Hero: headline on the left, a live loan figure on the right */
+.l-hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; padding: 56px 0 72px; }
+@media (max-width: 900px) { .l-hero { grid-template-columns: 1fr; gap: 40px; padding: 32px 0 48px; } }
+.l-hero h1 {
+  font-family: var(--l-display); font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 0.98; letter-spacing: -0.02em; margin: 0 0 22px;
+}
+.l-hero h1 em { color: var(--l-blue); }
+.l-hero p.lede { font-size: 1.15rem; color: var(--l-ink-2); max-width: 36ch; margin: 0 0 28px; }
+.l-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.l-btn {
+  display: inline-block; padding: 14px 20px; border-radius: 4px; text-decoration: none; font-weight: 700;
+  background: var(--l-ink); color: #fff; transition: background 200ms ease;
+}
+.l-btn:hover { background: var(--l-blue-ink); }
+.l-btn.ghost { background: transparent; color: var(--l-ink); box-shadow: inset 0 0 0 1.5px var(--l-ink); }
+.l-btn.ghost:hover { background: var(--l-white); }
+
+/* The live figure */
+.l-preview { background: var(--l-white); border: 1px solid var(--l-rule); border-radius: 6px; padding: 28px; }
+.l-preview .lbl { font-size: 0.9rem; color: var(--l-ink-2); }
+.l-preview .big {
+  font-family: var(--l-display); font-size: clamp(3rem, 6vw, 4.2rem); line-height: 1; margin: 6px 0 4px;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+}
+.l-preview .sub { font-size: 0.95rem; color: var(--l-ink-2); margin: 0 0 22px; }
+.l-slider { margin: 0 0 16px; }
+.l-slider-head { display: flex; justify-content: space-between; font-size: 0.92rem; margin-bottom: 6px; }
+.l-slider-head b { font-variant-numeric: tabular-nums; }
+.l-slider input[type="range"] { width: 100%; accent-color: var(--l-blue); }
+.l-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; border-top: 1px solid var(--l-rule); padding-top: 18px; }
+.l-split div span { display: block; font-size: 0.85rem; color: var(--l-ink-2); }
+.l-split div b { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.l-split .warn b { color: var(--l-gold); }
+.l-note { font-size: 0.82rem; color: var(--l-ink-2); margin: 16px 0 0; }
+
+/* Tools as full-width rows, not cards */
+.l-tools { border-top: 1px solid var(--l-ink); }
+.l-tool {
+  display: grid; grid-template-columns: 1fr auto; gap: 16px 40px; align-items: center;
+  padding: 32px 0; border-bottom: 1px solid var(--l-rule); text-decoration: none;
+}
+.l-tool h2 { font-family: var(--l-display); font-weight: 400; font-size: clamp(2rem, 4vw, 2.8rem); margin: 0 0 6px; letter-spacing: -0.01em; }
+.l-tool p { margin: 0; color: var(--l-ink-2); max-width: 60ch; }
+.l-tool .arrow { font-size: 1.1rem; font-weight: 700; color: var(--l-blue); white-space: nowrap; }
+.l-tool:hover h2 { color: var(--l-blue-ink); }
+@media (max-width: 700px) { .l-tool { grid-template-columns: 1fr; } }
+
+/* Prose sections */
+.l-prose { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; padding: 72px 0; }
+@media (max-width: 800px) { .l-prose { grid-template-columns: 1fr; gap: 16px; padding: 48px 0; } }
+.l-prose h2 { font-family: var(--l-display); font-weight: 400; font-size: 2.2rem; line-height: 1.05; margin: 0; }
+.l-prose div p { font-size: 1.06rem; color: var(--l-ink-2); max-width: 62ch; }
+.l-prose div p:first-child { margin-top: 0; }
+
+.l-faq { border-top: 1px solid var(--l-ink); padding: 8px 0 72px; }
+.l-faq details { border-bottom: 1px solid var(--l-rule); padding: 20px 0; }
+.l-faq summary { cursor: pointer; font-weight: 700; font-size: 1.08rem; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.l-faq summary::-webkit-details-marker { display: none; }
+.l-faq summary::after { content: "+"; color: var(--l-blue); font-size: 1.4rem; line-height: 1; }
+.l-faq details[open] summary::after { content: "–"; }
+.l-faq details p { color: var(--l-ink-2); margin: 12px 0 0; max-width: 64ch; }
+
+.l-foot { background: var(--l-ink); color: #c4cedb; padding: 32px 0; font-size: 0.92rem; }
+.l-foot .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.l-foot a { color: #fff; }

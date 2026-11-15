@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EMI Calculator: Free EMI & SIP Calculators, Any Currency</title>
+  <meta name="description" content="Free EMI and SIP calculators in any currency. Check loan installments and investment growth in seconds.">
+  <link rel="canonical" href="https://example.com/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body class="landing">
+<div class="wrap">
+  <header class="l-top">
+    <a class="l-brand" href="/">EMI Calculator</a>
+    <nav aria-label="Main">
+      <a href="/">Home</a>
+      <a href="/emi.html">EMI</a>
+      <a href="/sip.html">SIP</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="l-hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Know what a loan really costs, <em>before</em> you sign.</h1>
+        <p class="lede">Free calculators for loans and investments. Pick any currency and any number format, and see the full picture year by year.</p>
+        <div class="l-actions">
+          <a class="l-btn ghost" href="/emi.html">Calculate an EMI</a>
+          <a class="l-btn ghost" href="/sip.html">Plan a SIP</a>
+        </div>
+      </div>
+
+      <aside class="l-preview" aria-label="Live example">
+        <div class="lbl">Example: a 20-year home loan</div>
+        <div class="big" id="pv-emi" aria-live="polite">-</div>
+        <p class="sub">Monthly installment, moves as you change the sliders.</p>
+
+        <div class="l-slider">
+          <div class="l-slider-head"><span>Loan amount</span><b id="pv-amount-out"></b></div>
+          <input type="range" id="pv-amount" min="100000" max="20000000" step="50000" value="2500000" aria-label="Loan amount">
+        </div>
+        <div class="l-slider">
+          <div class="l-slider-head"><span>Interest rate per year</span><b id="pv-rate-out"></b></div>
+          <input type="range" id="pv-rate" min="1" max="20" step="0.05" value="8.5" aria-label="Interest rate">
+        </div>
+
+        <div class="l-split">
+          <div><span>Total interest</span><b id="pv-interest"></b></div>
+          <div class="warn"><span>Interest share of total paid</span><b id="pv-share"></b></div>
+        </div>
+        <p class="l-note">Estimate only. Your lender's schedule may differ.</p>
+      </aside>
+    </section>
+
+    <section class="l-tools" aria-label="Calculators">
+      <a class="l-tool" href="/emi.html">
+        <div>
+          <h2>EMI Calculator</h2>
+          <p>Your monthly installment, the total interest you will pay, and how the balance falls each year.</p>
+        </div>
+        <span class="arrow">Open &rarr;</span>
+      </a>
+      <a class="l-tool" href="/sip.html">
+        <div>
+          <h2>SIP Calculator</h2>
+          <p>How a regular monthly investment grows over time, with the split between what you put in and what it earned.</p>
+        </div>
+        <span class="arrow">Open &rarr;</span>
+      </a>
+    </section>
+
+    <section class="l-prose" aria-labelledby="about-title">
+      <h2 id="about-title">Numbers you can check</h2>
+      <div>
+        <p>Every figure on EMI Calculator comes from standard reducing-balance and compounding formulas. You can see the formula on each calculator page and check the first year by hand.</p>
+        <p>Pick the currency you pay in and the region whose number format you read. Your choice is remembered in your browser, and nothing you enter is sent anywhere.</p>
+      </div>
+    </section>
+
+    <section class="l-faq" aria-labelledby="faq-title">
+      <h2 id="faq-title" style="font-family:var(--l-display);font-weight:400;font-size:2.2rem;margin:56px 0 8px">Questions</h2>
+      <details>
+        <summary>Are these calculators free to use?</summary>
+        <p>Yes. There is no sign-up, no paywall, and no limit on how many times you calculate.</p>
+      </details>
+      <details>
+        <summary>Can I use any currency?</summary>
+        <p>Yes. Choose from the full list of world currencies. The currency and the region's number format are set separately, so you can, for example, show dollars with Indian digit grouping.</p>
+      </details>
+      <details>
+        <summary>Are the results exact?</summary>
+        <p>They are estimates based on the rate and tenure you enter. Banks and funds can add fees, insurance, taxes, or rate changes, so check the final figures with your lender or provider.</p>
+      </details>
+    </section>
+  </main>
+</div>
+
+<footer class="l-foot">
+  <div class="wrap">
+    <span>&copy; 2026 EMI Calculator. Estimates for planning only, not financial advice.</span>
+    <span><a href="/about.html">About</a> &middot; <a href="/privacy.html">Privacy</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var amount = document.getElementById("pv-amount");
+  var rate = document.getElementById("pv-rate");
+  var out = {
+    emi: document.getElementById("pv-emi"),
+    amount: document.getElementById("pv-amount-out"),
+    rate: document.getElementById("pv-rate-out"),
+    interest: document.getElementById("pv-interest"),
+    share: document.getElementById("pv-share")
+  };
+  var fmt = function (v) {
+    return new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(v);
+  };
+  function update() {
+    var p = Number(amount.value), r = Number(rate.value), n = 240;
+    var i = r / 12 / 100;
+    var f = Math.pow(1 + i, n);
+    var emi = p * i * f / (f - 1);
+    var total = emi * n, interest = total - p;
+    out.emi.textContent = fmt(emi);
+    out.amount.textContent = fmt(p);
+    out.rate.textContent = r + "%";
+    out.interest.textContent = fmt(interest);
+    out.share.textContent = Math.round(interest / total * 100) + "%";
+  }
+  amount.addEventListener("input", update);
+  rate.addEventListener("input", update);
+  update();
+})();
+</script>
+</body>
+</html>

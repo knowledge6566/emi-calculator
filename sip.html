@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIP Calculator: Any Currency, Any Region | EMI Calculator</title>
+  <meta name="description" content="Estimate how your monthly SIP grows over time with a year-by-year breakdown of invested amount, gains and value.">
+  <link rel="canonical" href="https://example.com/sip.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-calc="sip">
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">EMI Calculator</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/">Home</a>
+      <a href="/emi.html">EMI Calculator</a>
+      <a href="/sip.html" aria-current="page">SIP Calculator</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="intro">
+      <h1>SIP Calculator</h1>
+      <p>See how a monthly SIP can grow over time. Enter your monthly amount, expected annual return and investment period.</p>
+    </div>
+
+    <div class="calc">
+      <form class="panel" id="sip-form" novalidate>
+        <h2>Investment details</h2>
+
+        <div class="field">
+          <div class="field-head"><label for="currency">Currency</label></div>
+          <select id="currency" class="select"></select>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="region">Region (number format)</label></div>
+          <select id="region" class="select"></select>
+          <p class="hint">Changes how numbers are grouped, for example 1,00,000 or 100,000.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="sip-monthly">Monthly investment</label></div>
+          <div class="field-input"><span class="unit" data-currency-symbol></span>
+            <input type="number" id="sip-monthly" value="10000" min="1" max="1000000000" step="500" inputmode="numeric"></div>
+          <input type="range" id="sip-monthly-range" value="10000" min="100" max="200000" step="100" aria-label="Monthly investment slider">
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="sip-rate">Expected return (per year)</label></div>
+          <div class="field-input">
+            <input type="number" id="sip-rate" value="12" min="0.01" max="50" step="0.1" inputmode="decimal"><span class="unit">%</span></div>
+          <input type="range" id="sip-rate-range" value="12" min="1" max="30" step="0.1" aria-label="Expected return slider">
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="sip-years">Investment period</label></div>
+          <div class="field-input">
+            <input type="number" id="sip-years" value="15" min="1" max="40" step="1" inputmode="numeric"><span class="unit">years</span></div>
+          <input type="range" id="sip-years-range" value="15" min="1" max="40" step="1" aria-label="Investment period slider">
+        </div>
+
+        <p class="error" id="sip-error" role="alert"></p>
+        <button class="btn" type="submit">Calculate SIP</button>
+      </form>
+
+      <section class="panel" aria-live="polite" aria-labelledby="sip-res-h">
+        <h2 id="sip-res-h">Your result</h2>
+        <div class="result-main">
+          <div class="k">Estimated maturity value</div>
+          <div class="v" id="sip-value">0</div>
+        </div>
+
+        <div class="split">
+          <div class="donut" id="sip-donut" style="--p:50%" role="img" aria-label="Invested amount and gains split"></div>
+          <ul class="legend">
+            <li><span class="dot" style="background:var(--ink)"></span><span id="sip-legend-i">Invested</span></li>
+            <li><span class="dot" style="background:var(--accent)"></span><span id="sip-legend-g">Gains</span></li>
+          </ul>
+        </div>
+
+        <dl class="stats">
+          <div><dt>Total invested</dt><dd id="sip-invested">0</dd></div>
+          <div><dt>Estimated gains</dt><dd id="sip-gains">0</dd></div>
+        </dl>
+        <p class="hint" id="sip-summary"></p>
+      </section>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption style="text-align:left;padding:12px 14px;font-weight:700">Year-by-year growth</caption>
+        <thead><tr><th>Year</th><th>Amount invested</th><th>Gains</th><th>Value</th></tr></thead>
+        <tbody id="sip-table-body"></tbody>
+      </table>
+    </div>
+    <p class="disclaimer">Mutual fund returns are not guaranteed and can be negative. The expected return you enter is an assumption, not a promise. Past performance does not predict future results.</p>
+
+    <div class="content" style="margin-top:32px">
+      <section>
+        <h2>How SIP returns are calculated</h2>
+        <p>A Systematic Investment Plan (SIP) invests a fixed amount at regular intervals. This calculator assumes each contribution is made at the start of the month and compounds monthly at the rate you enter.</p>
+        <div class="formula">FV = P &times; [((1 + i)<sup>n</sup> &minus; 1) / i] &times; (1 + i)<br>
+P = monthly investment, i = monthly return (annual / 12 / 100), n = number of months</div>
+      </section>
+      <section>
+        <h2>Frequently asked questions</h2>
+        <h3>What return should I assume?</h3>
+        <p>Equity funds have historically returned more over long periods but with more ups and downs. Many people use conservative assumptions, such as 10% to 12% for equity and lower for debt funds. Try a few values to see the range.</p>
+        <h3>Why does starting early matter?</h3>
+        <p>Compounding gives more time to grow. Use the year-by-year table to compare how the final value changes when you change the period.</p>
+        <h3>Does this include taxes or fees?</h3>
+        <p>No. Expense ratios, exit loads, and capital gains tax are not included. Your actual returns will be lower after these costs.</p>
+      </section>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; 2026 EMI Calculator. Estimates for planning only, not financial advice.</span>
+    <span><a href="/about.html">About</a> &middot; <a href="/privacy.html">Privacy</a></span>
+  </div>
+</footer>
+<script src="/js/app.js"></script>
+</body>
+</html>

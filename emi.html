@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EMI Calculator: Any Currency, Any Region | EMI Calculator</title>
+  <meta name="description" content="Calculate your monthly EMI, total interest and year-by-year loan breakdown for home, car and personal loans in any currency.">
+  <link rel="canonical" href="https://example.com/emi.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-calc="emi">
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">EMI Calculator</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/">Home</a>
+      <a href="/emi.html" aria-current="page">EMI Calculator</a>
+      <a href="/sip.html">SIP Calculator</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="intro">
+      <h1>EMI Calculator</h1>
+      <p>Work out your monthly loan installment, the total interest you will pay, and how your balance falls over time.</p>
+    </div>
+
+    <div class="calc">
+      <form class="panel" id="emi-form" novalidate>
+        <h2>Loan details</h2>
+
+        <div class="field">
+          <div class="field-head"><label for="currency">Currency</label></div>
+          <select id="currency" class="select"></select>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="region">Region (number format)</label></div>
+          <select id="region" class="select"></select>
+          <p class="hint">Changes how numbers are grouped, for example 1,00,000 or 100,000.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="emi-amount">Loan amount</label></div>
+          <div class="field-input"><span class="unit" data-currency-symbol></span>
+            <input type="number" id="emi-amount" value="2500000" min="1" max="1000000000000" step="10000" inputmode="numeric"></div>
+          <input type="range" id="emi-amount-range" value="2500000" min="100000" max="20000000" step="50000" aria-label="Loan amount slider">
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="emi-rate">Interest rate (per year)</label></div>
+          <div class="field-input">
+            <input type="number" id="emi-rate" value="8.5" min="0.01" max="50" step="0.05" inputmode="decimal"><span class="unit">%</span></div>
+          <input type="range" id="emi-rate-range" value="8.5" min="1" max="20" step="0.05" aria-label="Interest rate slider">
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label for="emi-years">Loan tenure</label></div>
+          <div class="field-input">
+            <input type="number" id="emi-years" value="20" min="1" max="30" step="1" inputmode="numeric"><span class="unit">years</span></div>
+          <input type="range" id="emi-years-range" value="20" min="1" max="30" step="1" aria-label="Loan tenure slider">
+        </div>
+
+        <p class="error" id="emi-error" role="alert"></p>
+        <button class="btn" type="submit">Calculate EMI</button>
+      </form>
+
+      <section class="panel" aria-live="polite" aria-labelledby="emi-res-h">
+        <h2 id="emi-res-h">Your result</h2>
+        <div class="result-main">
+          <div class="k">Monthly EMI</div>
+          <div class="v" id="emi-result">0</div>
+        </div>
+
+        <div class="split">
+          <div class="donut" id="emi-donut" style="--p:50%" role="img" aria-label="Principal and interest split"></div>
+          <ul class="legend">
+            <li><span class="dot" style="background:var(--ink)"></span><span id="emi-legend-p">Principal</span></li>
+            <li><span class="dot" style="background:var(--accent)"></span><span id="emi-legend-i">Interest</span></li>
+          </ul>
+        </div>
+
+        <dl class="stats">
+          <div><dt>Principal amount</dt><dd id="emi-principal">0</dd></div>
+          <div><dt>Total interest</dt><dd id="emi-interest">0</dd></div>
+          <div><dt>Total payment</dt><dd id="emi-total">0</dd></div>
+        </dl>
+        <p class="hint" id="emi-summary"></p>
+      </section>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption style="text-align:left;padding:12px 14px;font-weight:700">Year-by-year breakdown</caption>
+        <thead><tr><th>Year</th><th>Principal paid</th><th>Interest paid</th><th>Outstanding balance</th></tr></thead>
+        <tbody id="emi-table-body"></tbody>
+      </table>
+    </div>
+    <p class="disclaimer">Figures are estimates. Actual bank EMIs can differ due to processing fees, rate changes, and rounding. Check with your lender before you borrow.</p>
+
+    <div class="content" style="margin-top:32px">
+      <section>
+        <h2>How EMI is calculated</h2>
+        <p>An EMI (Equated Monthly Installment) is a fixed amount you pay each month until the loan is fully repaid. Each payment covers the interest for that month first, and the rest reduces your principal.</p>
+        <div class="formula">EMI = P &times; r &times; (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> &minus; 1)<br>
+P = loan amount, r = monthly interest rate (annual rate / 12 / 100), n = number of months</div>
+        <p>Because interest is charged on the outstanding balance, early EMIs are mostly interest and later EMIs are mostly principal.</p>
+      </section>
+      <section>
+        <h2>Frequently asked questions</h2>
+        <h3>Does a longer tenure reduce my EMI?</h3>
+        <p>Yes, a longer tenure lowers the monthly EMI, but you pay more interest overall. Compare a few tenures with the sliders above to see the trade-off.</p>
+        <h3>What happens if I prepay?</h3>
+        <p>Prepaying reduces the outstanding principal, which lowers future interest. Ask your lender whether prepayment charges apply.</p>
+        <h3>Is this calculator accurate for home loans?</h3>
+        <p>It uses the standard reducing-balance formula used by most most banks. Your actual schedule may differ slightly because of fees, insurance, or floating-rate changes.</p>
+      </section>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; 2026 EMI Calculator. Estimates for planning only, not financial advice.</span>
+    <span><a href="/about.html">About</a> &middot; <a href="/privacy.html">Privacy</a></span>
+  </div>
+</footer>
+<script src="/js/app.js"></script>
+</body>
+</html>
